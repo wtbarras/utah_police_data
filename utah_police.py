@@ -23,7 +23,8 @@ police_data = pd.DataFrame(police_data_json['records'], columns=columns)
 print('first five rows of data:')
 print(police_data.head())
 
-police_data['occ_date'] = [date[:9] for date in police_data['occ_date']]
+# Strip occ_date field down to just date
+police_data['occ_date'] = police_data.occ_date.str[:10]
 print(police_data['occ_date'].head())
 
 types = police_data.groupby('cr_desc').count()
