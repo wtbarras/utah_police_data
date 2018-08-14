@@ -25,9 +25,23 @@ print(police_data.head())
 
 # Strip occ_date field down to just date
 police_data['occ_date'] = police_data.occ_date.str[:10]
-print(police_data['occ_date'].head())
+# print(police_data['occ_date'].head())
 
+# Clean cr_desc values
+police_data['cr_desc'] = police_data.cr_desc.str.strip()
+
+# Group by crime type
 types = police_data.groupby('cr_desc').count()
 types = types.reset_index()
-print('Grouped Data')
-print(types.head())
+# print('Grouped Data')
+# print(types)
+
+# Find LARCENY data by date
+# df = df[df['groupby_column'].isin(ids)]
+type_and_date = police_data.groupby(['cr_desc', 'occ_date']).count()
+# print(type_and_date)
+larceny_data = type_and_date.loc['LARCENY'].reset_index()
+print(larceny_data)
+
+plt.plot(larceny_data['occ_date'], larceny_data['_id'])
+plt.show()
