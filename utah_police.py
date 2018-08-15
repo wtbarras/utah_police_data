@@ -55,7 +55,7 @@ for index, row in larceny_data.iterrows():
     sums[index] += row['_id']
 # Calculate the average number of larcenies per day for each month
 print('finding average larceny/day for months. . .')
-counts = [31, 29, 31, 30, 31, 30, 31]
+counts = [31, 28, 31, 30, 31, 30, 31]
 avgs = [sum / (count * 1.0) for sum, count in zip(sums, counts)]
 sum_x_vals = ['2015-1-1', '2015-2-1', '2015-3-1', '2015-4-1', '2015-5-1', '2015-6-1', '2015-7-1']
 
@@ -68,11 +68,11 @@ ax.plot(larceny_data['formatted_date'], larceny_data['_id'])
 # Rotate date labels automatically
 fig.autofmt_xdate()
 # Add title
-plt.title('Salt Lake City Larceny rates (January - July)')
+plt.title('Salt Lake City Larceny rates and daily average by month (January - July)')
 # Add y label
 plt.ylabel('Number of Larcenies')
 # Add x label
 plt.xlabel('Date')
 # Add monthly counts
-plt.bar(sum_x_vals, avgs)
+plt.bar(sum_x_vals, avgs, counts, align='edge', alpha=0.5, color='orange')
 plt.show()
