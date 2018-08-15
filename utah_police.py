@@ -44,9 +44,26 @@ larceny_data = type_and_date.loc['LARCENY'].reset_index()
 print('formatting dates. . .')
 larceny_data['formatted_date'] = [dt.datetime.strptime(d,'%Y-%m-%d').date() for d in larceny_data.occ_date]
 
+# Sum monthly totals
+print('finding monthly sums. . .')
+sums = [0,0,0,0,0,0,0]
+for index, row in larceny_data.iterrows():
+    # Pull out month for this row
+    month = int(row['occ_date'][5:7])
+    index = month-1
+    # Add count to proper month
+    sums[index] += row['_id']
+# Calculate the average number of larcenies per day for each month
+print('finding average larceny/day for months. . .')
+counts = [31, 29, 31, 30, 31, 30, 31]
+avgs = [sum / (count * 1.0) for sum, count in zip(sums, counts)]
+sum_x_vals = ['2015-1-1', '2015-2-1', '2015-3-1', '2015-4-1', '2015-5-1', '2015-6-1', '2015-7-1']
+
+
 # Plot data
 print('plotting data. . .')
 fig, ax = plt.subplots()
+# Line plot of daily rates
 ax.plot(larceny_data['formatted_date'], larceny_data['_id'])
 # Rotate date labels automatically
 fig.autofmt_xdate()
@@ -56,4 +73,6 @@ plt.title('Salt Lake City Larceny rates (January - July)')
 plt.ylabel('Number of Larcenies')
 # Add x label
 plt.xlabel('Date')
+# Add monthly counts
+plt.bar(sum_x_vals, avgs)
 plt.show()
