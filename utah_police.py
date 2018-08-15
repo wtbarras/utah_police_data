@@ -1,5 +1,6 @@
 from mpl_toolkits.basemap import Basemap
 from matplotlib import pyplot as plt
+import datetime as dt
 import pandas as pd
 import json
 
@@ -43,5 +44,13 @@ type_and_date = police_data.groupby(['cr_desc', 'occ_date']).count()
 larceny_data = type_and_date.loc['LARCENY'].reset_index()
 print(larceny_data)
 
-plt.plot(larceny_data['occ_date'], larceny_data['_id'])
+# Format dates
+larceny_data['formatted_date'] = [dt.datetime.strptime(d,'%Y-%m-%d').date() for d in larceny_data.occ_date]
+
+# Plot data
+fig, ax = plt.subplots()
+ax.plot(larceny_data['formatted_date'], larceny_data['_id'])
+# Rotate date labels automatically
+fig.autofmt_xdate()
+
 plt.show()
