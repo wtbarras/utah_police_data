@@ -50,4 +50,10 @@ fig, ax = plt.subplots()
 ax.plot(larceny_data['formatted_date'], larceny_data['_id'])
 # Rotate date labels automatically
 fig.autofmt_xdate()
+# Add title
+plt.title('Salt Lake City Larceny rates (January - July)')
+# Add y label
+plt.ylabel('Number of Larcenies')
+# Add x label
+plt.xlabel('Date')
 plt.show()
